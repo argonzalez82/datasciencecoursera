@@ -1,5 +1,8 @@
 #Load the wk1 quiz dataset into Rstudio
+system.time()
 read.csv("hw1_data.csv")
+
+
 
 #assign the dataset to mydata to perform addtional tasks
 mydata<-read.csv("hw1_data.csv")
