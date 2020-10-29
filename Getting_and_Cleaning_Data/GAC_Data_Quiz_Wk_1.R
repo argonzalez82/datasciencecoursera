@@ -1,5 +1,11 @@
-    install.packages("Rcurl", "curl", "XML", "xml2", "renv")
-
+    install.packages("curl", "XML", "xml2")
+    install.packages("renv")
+    library(curl)
+    library(XML)
+    library(xml2)
+    library(renv)
+    
+    
 #checking current working directory
 #"/home/CentOS_Laptop/datasciencecoursera/Getting_and_Cleaning_Data"
     getwd()
@@ -95,6 +101,25 @@ homes_values_over_a_mil
                      rowIndex = rowIndex,
                      colIndex = colIndex)
     
-                     
+#second part of Question 3:
+   zipsum <- sum(dat$Zip*dat$Ext,na.rm = T)
 
     
+   
+   
+#Question 4
+#Read the XML data on Baltimore restaurants from here:
+#https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml
+#How many restaurants have zipcode 21231?
+   
+  install.packages("XML")
+  library(XML)
+  
+  xmlURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml"
+  doc <- xmlTreeParse(xmlURL, useInternal=TRUE)
+  rootNode <- xmlRoot(doc)
+  rootNode
+   
+  zipSum <- xpathsum(rootNode, "//@zipcode = 21231]")    
+  print(zipSum)
+     
