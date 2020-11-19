@@ -1,4 +1,4 @@
-  #Week 2 R Programming _ Programming Assignment 
+#Week 2 R Programming _ Programming Assignment 
 #Part 2 calculate complete cases.  
 
 

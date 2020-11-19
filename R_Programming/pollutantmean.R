@@ -32,19 +32,25 @@
 # Testing solution to read the multiple .csv files 
 # Test was successful 09/18/2020
 
+#mydir = "specdata"
+#myfiles = list.files(path=mydir, pattern = "*.csv", full.names = TRUE)
+#myfiles
+
+#data_csv = ldply(myfiles, read_csv)
+#data_csv
+
+
+
+
+
+#install necessary packages and load the corresponding libraries
 install.packages("plyr")
 
 library(plyr)
 library(readr)
 
-setwd("~/datasciencecoursera/")
 
-mydir = "specdata"
-myfiles = list.files(path=mydir, pattern = "*.csv", full.names = TRUE)
-myfiles
 
-data_csv = ldply(myfiles, read_csv)
-data_csv
 
 
 #pollutantmean function tested successfully  09/18/2020
@@ -77,5 +83,6 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
   mean(Data[,pollutant],na.rm=TRUE)
   
 }
+
 
 

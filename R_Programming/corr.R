@@ -18,17 +18,17 @@ library(readr)
 library(data.table)
 
 
-corr <- function(directory, threshold = 0) {
+
   
   #set the path
   setwd("~/datasciencecoursera/specdata")
-  path = directory 
+  
   
   #Reading the files and making a list of the files 
   mylist <- list.files(path, pattern = "*.csv", full.names = TRUE)
   
   #creating a dataframe using the complete function and the files in the dir.   
-  df <- complete(directory)
+  df <- complete(path)
   ids <- df[df["nobs"] > threshold,]$id
   
   
@@ -39,8 +39,7 @@ corr <- function(directory, threshold = 0) {
       mydata <- read.csv(mylist[i])
       df_complete <- mydata[complete.cases(mydata), ]
       corr_num <- c(corr_num, cor(df_complete$sulfate, df_complete$nitrate))
-      }
+      
       return(corr_num)    
 }              
-  
-  
+ 

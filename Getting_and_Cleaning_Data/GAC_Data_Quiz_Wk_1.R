@@ -1,9 +1,9 @@
-    install.packages("curl", "XML", "xml2")
-    install.packages("renv")
+    install.packages("curl", "RCurl", "XML", "xml2")
     library(curl)
+    library(RCurl)
     library(XML)
     library(xml2)
-    library(renv)
+  
     
     
 #checking current working directory
@@ -112,14 +112,19 @@ homes_values_over_a_mil
 #https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml
 #How many restaurants have zipcode 21231?
    
-  install.packages("XML")
-  library(XML)
+  install.packages("XML", "RCurl")
+  library(XML, RCurl)
   
   xmlURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml"
-  doc <- xmlTreeParse(xmlURL, useInternal=TRUE)
+  doc <- xmlTreeParse(sub("s", "", xmlURL), useInternal=TRUE)
   rootNode <- xmlRoot(doc)
   rootNode
+  zipCode <- xpathApply(doc, "//zipcode = 21231")
+  
+  zipsum <- sum(zipCode)
+  print(rootNode)
+  
    
-  zipSum <- xpathsum(rootNode, "//@zipcode = 21231]")    
+  zipSum <- xpathsum(rootNode, " //@zipcode = 21231]")    
   print(zipSum)
      
