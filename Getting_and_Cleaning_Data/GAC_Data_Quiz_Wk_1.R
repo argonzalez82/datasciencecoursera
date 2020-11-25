@@ -11,20 +11,20 @@
     getwd()
 
 #creating a new folder and file to store the imported data
-    dir.create("test")
+    dir.create("data")
 
 #setting the working directory to the new data directory to place
 #the new .csv in the directory.
 #Creating function since the steps in line 15 - 25
 #will be needed multiple times in other questions in the Quiz.   
     
-createFile <- function(fileName = "2006_microdata_survey.csv" ) {
+createFile <- function(fileName = "2006_m!icrodata_survey.csv" ) {
     setwd("/home/CentOS_Laptop/datasciencecoursera/Getting_and_Cleaning_Data/data")
     
     file.create(fileName)
 
 #checkingfile in directory
-    list.files("./data")
+    print(list.files("./data"))
 
 #setting directory back to main directory 
     setwd("/home/CentOS_Laptop/datasciencecoursera/Getting_and_Cleaning_Data")
@@ -115,16 +115,81 @@ homes_values_over_a_mil
   install.packages("XML", "RCurl")
   library(XML, RCurl)
   
+#Assign the XML website to variable xmlURL
   xmlURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml"
+  
+#parse the xml and assign to doc variable use the sub() to remove "s" from https
+#since xml doesnt work https sites. 
   doc <- xmlTreeParse(sub("s", "", xmlURL), useInternal=TRUE)
   rootNode <- xmlRoot(doc)
-  rootNode
-  zipCode <- xpathApply(doc, "//zipcode = 21231")
-  
-  zipsum <- sum(zipCode)
   print(rootNode)
   
-   
-  zipSum <- xpathsum(rootNode, " //@zipcode = 21231]")    
-  print(zipSum)
-     
+#working on collecting zipcode node in order to complete the solution
+#1st attempt - outcome not really useable yet 
+  zipCollect <- xpathApply(doc = rootNode, "//zipcode" )
+  print(zipCollect)
+
+#2nd attempt outcome is useable     
+  zipCollect2 <- xpathSApply(rootNode, "//zipcode[contains(text(), 
+                             '21231')]", xmlValue) 
+  
+  
+#installing plyr package to use the count function plyr::count
+  install.packages("plyr")
+  library(plyr)
+
+#zipCollect2 is Character / changed to integer to count the 
+  
+  zipCount <- count(zipCollect2)
+  
+
+
+  
+#Question:5
+#The American Community Survey distributes downloadable data 
+#about United States communities. Download the 2006 microdata survey 
+#about housing for the state of 
+#Idaho using download.file() from here:
+  
+#https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06pid.csv
+  
+#get working directory  / to verify current directory
+  getwd()
+
+#Reusing CreateFile function from Question1 
+#creating a new to file in the data folder 
+#to place the download() from the url
+
+  createFile(fileName = "2006_microdata_2.csv") 
+  
+#Question 5:  Download from fileURL object into a .csv in the data dir.
+# http address is assigned to the fileURL object
+  
+  fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06pid.csv"
+  download.file(fileURL, 
+                destfile = "./data/2006_microdata_2.csv",
+                method ="curl")
+  
+
+#reading the survey data into R /
+#creating a table using fread() 
+#data.table package is needed for the fread()  
+  
+install.packages("data.table") 
+library(data.table)
+
+  
+  DT <- fread("./data/2006_microdata_2.csv", 
+                           sep = ",", 
+                           header =TRUE,
+                           verbose = TRUE)
+  
+  head(DT)  
+
+#second part of Question5 Testing different solution to 
+#to find the fastest solution
+  
+ Q5_Solution1 <- (DT[DT$SEX==1,]$pwgtp15);mean(DT[DT$SEX==2,]$pwgtp15)
+  
+ system.time(Q5_Solution1)
+  
