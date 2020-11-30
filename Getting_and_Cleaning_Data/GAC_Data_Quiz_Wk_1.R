@@ -1,8 +1,6 @@
     install.packages("curl", "RCurl", "XML", "xml2")
-    library(curl)
-    library(RCurl)
-    library(XML)
-    library(xml2)
+    
+    
   
     
     
@@ -65,7 +63,7 @@ createFile <- function(fileName = "2006_m!icrodata_survey.csv" ) {
 #housing cost, are in the variable labeled VAL , and 
 #value #24 is for homes over $1,000,000
 # Total sum is = 53 for homes in this price$ range   
-homes_values_over_a_mil <- sum(na.exclude(surveyData$VAL > 23))
+print(homes_values_over_a_mil <- sum(na.exclude(surveyData$VAL > 23)))
 
 homes_values_over_a_mil
 
@@ -189,7 +187,25 @@ library(data.table)
 #second part of Question5 Testing different solution to 
 #to find the fastest solution
   
- Q5_Solution1 <- (DT[DT$SEX==1,]$pwgtp15);mean(DT[DT$SEX==2,]$pwgtp15)
+  install.packages("rbenchmark")
+  library(rbenchmark)
   
- system.time(Q5_Solution1)
+  Q5_Solution1 <- (DT[DT$SEX==1,]$pwgtp15);mean(DT[DT$SEX==2,]$pwgtp15)
+  benchmark(Q5_Solution1)
+ 
+  Q5_Solutions2 <- mean(DT$pwgtp15,by=DT$SEX)
+  benchmark(Q5_Solutions2)
+ 
+  Q5_Solution3 <- sapply(split(DT$pwgtp15,DT$SEX),mean)
+  benchmark(Q5_Solution3)
+ 
+  Q5_Solutions4 <- rowMeans(DT)[DT$SEX==1];rowMeans(DT)[DT$SEX==2]
+  benchmark(Q5_Solution4)
+ 
+  Q5_Solution5 <- DT[,mean(pwgtp15),by=SEX]
+  benchmark(Q5_Solution5)
   
+  Q5_Solution6 <- tapply(DT$pwgtp15,DT$SEX,mean)
+  benchmark(Q5_Solution6)
+ 
+ 
