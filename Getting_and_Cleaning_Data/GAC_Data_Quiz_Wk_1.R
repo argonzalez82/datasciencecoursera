@@ -21,12 +21,15 @@
     
     file.create(fileName)
 
-  #checkingfile in directory
-    print(list.files("./data"))
+  
 
   #setting directory back to main directory 
     setwd("/home/CentOS_Laptop/datasciencecoursera/Getting_and_Cleaning_Data")
-}
+
+  #verifiying files in directory
+    return(list.files("./data"))
+    
+    }
 
   #Question 1:  Download from fileURL object into a .csv in the data dir.
   # http address is assigned to the fileURL object
